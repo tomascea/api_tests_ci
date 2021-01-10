@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    triggers {
+            pollSCM('*/1 * * * *')
+        }
+
+    stages {
+        stage('build') {
+            steps {
+                echo "Building application"
+                sh "sleep 5"
+            }
+        }
+        stage('deploy-dev') {
+            steps {
+                script{
+                    deploy("dev")
+                }
+            }
+        }
+        stage('test-dev') {
+            steps {
+                script{
+                    test("dev")
+                }
+            }
+        }
+        stage('deploy-int') {
+            steps {
+                  script{
+                     deploy("int")
+                 }
+            }
+        }
+        stage('test-int') {
+            steps {
+                script{
+                    test("int")
+                }
+            }
+        }
+        stage('deploy-prd') {
+                    steps {
+                        script{
+                            deploy("prd")
+                        }
+                    }
+                }
+        stage('test-prd') {
+            steps {
+                script{
+                    test("prd")
+                }
+            }
+        }
+    }
+}
+
+def deploy(String environment){
+    echo "Deployment to ${environment} in progress"
+    build job: "ui-tests", parameters: [string(name: "ENVIRONMENT", value: "${environment}"]
+}
+
+def test(String environment){
+    echo "Running tests on ${environment}"
+}
+
