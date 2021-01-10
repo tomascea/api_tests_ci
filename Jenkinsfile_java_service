@@ -76,10 +76,10 @@ def test(String environment){
             allowMissing: false,
             alwaysLinkToLastBuild: false,
             keepAll: false,
-            reportDir: '',
-            reportFiles: 'report_${environment}.html',
-            reportName: 'Test Report ${environment}',
-            reportTitles: ''])
+            reportDir: """,
+            reportFiles: "report_${environment}.html",
+            reportName: "Test Report ${environment}",
+            reportTitles: ""])
     }
 }
 
